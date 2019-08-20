@@ -1,0 +1,81 @@
+.move-background {
+	position         : absolute;
+	display          : flex;
+	justify-content  : center;
+	align-items      : center;
+	z-index          : 100;
+	left             : 0;
+	right            : 0;
+	top              : 0;
+	bottom           : 0;
+	background-color : rgba(231, 226, 226, 0.6);
+}
+
+.container {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	width: 350px;
+	border-radius: 5px;
+	background-color: white;
+	padding-bottom : 10px;
+}
+
+.header-block {
+	border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+	background-color: rgb(173, 201, 245);
+	display         : flex;
+	flex-direction  : row;
+	justify-content : space-between;
+	align-items     : center;
+	padding         : 5px 15px;
+}
+
+.close-button {
+	font-weight: 600;
+}
+
+.content {
+	padding: 10px;
+}
+.location .path{
+	font-weight: 800;
+	overflow:auto;
+}
+
+.location-current .path{
+	color: blue;
+}
+
+.location-new .path{
+	color: green;
+}
+
+.folder-list{
+	border: 5px ridge;
+	padding: 5px;
+	overflow-y: auto;
+height: 100px;
+}
+
+.action-block {
+	
+	display: flex;
+	justify-content : flex-end;
+}
+
+.simple-button{
+	width: 55px;
+	margin: 0 4px;
+	padding: 4px;
+	border-radius: 5px;
+	background-color: rgb(242, 244, 247);
+	box-shadow: 6px 5px 16px -9px #000000;
+}
+
+.simple-button:hover{
+	box-shadow: 7px 5px 19px -5px #000000;
+}
+
