@@ -4,14 +4,38 @@
 			<h3 class="header-title">{{header}}</h3>
 			<a class="close-button" (click)="close()">&#10006;</a>
 		</div>
-		<div class="content">
-			<span>{{description}}</span>
-			<input  type="text" [(ngModel)]="inputName"  >
+
+		<div class="content" (keyup.enter)="confirm()">
+			<ng-container *ngIf="typeWinView === typeModalWin.error">
+				<div class="icon-error sprite"></div>
+				<div class="icon-name err-number"><span>{{codeErr}}</span></div>
+				<div class="err-description"><span>{{description}}</span></div>
+				<div class="err-serv-mess"><span>{{serverMess}}</span></div>
+			</ng-container>
+			<ng-container *ngIf="typeWinView === typeModalWin.context">
+				<span>{{description}}</span>
+				<input autoFocus type="text" [(ngModel)]="inputName">
+			</ng-container>
+			<ng-container *ngIf="typeWinView === typeModalWin.warning">
+				<div class="icon-warning sprite"></div>
+				<div class="icon-name warning"><span>Внимание!</span></div>
+				<div class="warning-description">{{description}}</div>
+			</ng-container>
 
 		</div>
+
 		<div class="action-block">
-			<button class="simple-button" (click)="confirm()">ОK</button>
-			<button class="simple-button" (click)="close()">Отмена</button>
+			<ng-container *ngIf="typeWinView === typeModalWin.context || typeModalWin.warning">
+				<button class="simple-button" (click)="confirm()">ОK</button>
+				<button class="simple-button" (click)="close()">Отмена</button>
+			</ng-container>
+			<ng-container *ngIf="typeWinView === typeModalWin.error && codeErr!=409">
+				<button class="simple-button" (click)="close()">ОK</button>
+			</ng-container>
+			<ng-container *ngIf="typeWinView === typeModalWin.error && codeErr===409">
+				<button class="simple-button rename-btn" (click)="confirm()">Переименовать</button>
+				<button class="simple-button" (click)="close()">Отмена</button>
+			</ng-container>
 		</div>
 	</div>
 </div>

@@ -4,35 +4,43 @@
     <div class="header">
       <div class="header-body">
         <div class="logo">
-          <a href="#"><img src="../../assets/images/logoMy.png" alt=""><span>Диск</span></a>
+          <a href="/"><img src="../../assets/images/logoMy.png" alt=""><span>Диск</span></a>
         </div>
-        <div class="search">
-          <input type="search" placeholder="Поиск на Диске">
+        <div class="search-block">
+          <div class="search" (keyup.enter)="searchClick(inputSerch.value); inputSerch.value=''">
+            <input #inputSerch type="search" placeholder="Поиск на Диске">
+          </div>
+          <div class="search-bt" (click)="searchClick(inputSerch.value); inputSerch.value='' ">
+            <div class="icon-search sprite"></div>
+          </div>
         </div>
-        <div class="dop"></div>
+      </div>
+      <div class="login">
+        <app-authauthentication></app-authauthentication>
       </div>
     </div>
     <div class="main">
       <div class="sidebar">
         <div class="create-sb">
-          <div class="contener-elementFS" [attr.data-pathFolder]="currentPath" [attr.data-isfolder]="true"
-            (click)="onrightClick($event)">
+          <div  [attr.data-el]="objectType.global" (click)="buttonAddClick()">
             <button id="btn-create"><img src="../../assets/images/add.png" alt=""> Создать</button>
           </div>
         </div>
-        <div class="my-disk-contener" (click)="foldersView($event)">
-          <app-directory-folders [directoryAllFoldersList]="allFoldersListFull" [currentPath]="currentPath"
-            [menuNumberView]="menuNumberView" (changeCurrentPathOut)="updateFolderListByPath($event)"
-            *ngIf="allFoldersListFull" (contextmenu-)="onrightClick($event)">
+        <div class="my-disk-contener" (click)="sidebarMenuClick(menuSidebar.folders)">
+          <app-directory-folders *ngIf="allFoldersListFull" [directoryAllFoldersList]="allFoldersListFull"
+            [currentPath]="currentPath" [menuNameView]="menuSidebar[menuNameView]"
+            (changeCurrentPathOut)="changeFolderListBySideMenu($event)"  (contextMenuDF)="sideBarContextMenuOpen($event)">
           </app-directory-folders>
         </div>
         <div class="my-disk-separator"></div>
         <div class="my-disk-menu">
-          <div class="star" (click)="starView($event)">
+          <div class="star" [ngClass]="{'show-currentPath':menuNameView==menuSidebar.star}"
+            (click)="sidebarMenuClick(menuSidebar.star)">
             <div class="icon-star sprite"></div>
             <div class="icon-name">Отмеченные</div>
           </div>
-          <div class="basket" (click)="basketView($event)">
+          <div class="basket" [ngClass]="{'show-currentPath':menuNameView==menuSidebar.basket}"
+            (click)="sidebarMenuClick(menuSidebar.basket)">
             <div class="icon-del sprite"></div>
             <div class="icon-name">Корзина</div>
           </div>
@@ -43,184 +51,227 @@
             <div class="icon-name">Хранилище</div>
           </div>
           <div class="m-d-s-meter">
-            <meter min="0" low="{{meterLowView}}" high="{{meterHigtView}}" max="{{meterMaxView}}" optimum="0"
-              value="{{meterValueView}}"></meter>
+            <meter min="0" low="{{sizeDiskView.meterLowView}}" high="{{sizeDiskView.meterHigtView}}"
+              max="{{sizeDiskView.meterMaxView}}" optimum="0" value="{{sizeDiskView.meterValueView}}"></meter>
           </div>
-          <div class="m-d-s-text">Использовано {{currenSizeView}} из {{fullSizeView}}</div>
+          <div class="m-d-s-text">Использовано {{sizeDiskView.currenSizeView}} из {{sizeDiskView.fullSizeView}}</div>
         </div>
       </div>
       <div class="basic">
-        <div class="basic-menu" [ngSwitch]="menuNumberView">
-          <div class="path-menu" *ngSwitchCase="0">
+        <div class="basic-menu" [ngSwitch]="menuNameView">
+          <div class="path-menu" *ngSwitchCase="menuSidebar.folders">
             <ul class="breadcrumbs">
-              <li class="contener-elementFS" *ngFor="let folder of currentPathViewer; let i = index"
-                [attr.data-ifolder]="i" [attr.data-isfolder]="true" (click)="currentFoldersListViewListByClick($event)">
-                {{folder}}</li>
+              <li  *ngFor="let folder of pathBreadcrumbsViewer; let i = index"
+                [attr.data-ifolder]="i" (click)="breadcrumbsClick($event)"
+                [attr.title]="folder.isAttr ? folder.name:null">
+                {{folder.name}}</li>
             </ul>
           </div>
-          <div class="menu-star" *ngSwitchCase="2">Избранные</div>
-          <div class="menu-basket" *ngSwitchCase="1">Корзина</div>
-
+          <div class="menu-star" *ngSwitchCase="menuSidebar.star">Избранные</div>
+          <div class="menu-basket" *ngSwitchCase="menuSidebar.basket">Корзина</div>
+          <div class="menu-search" *ngSwitchCase="menuSidebar.search">Результат поиска:
+            <span>{{searchStringView}}</span></div>
         </div>
-        <div class="block-folders-files">
-          <div class="table style-table">
-            <div class="table-heading">
-              <div class="table-row">
-                <div class="table-head">Название</div>
-                <div class="table-head">Размер</div>
-                <div class="table-head">Дата</div>
-                <div class="table-head">Доступ</div>
+
+        <ng-container *ngIf="statusDataView ==='isData'">
+          <ng-container [ngSwitch]="menuNameView">
+            <div class="block-folders-files">
+              <div class="table style-table">
+                <div class="table-heading">
+                  <div class="table-row">
+                    <div class="table-head">Название</div>
+                    <div class="table-head">Размер</div>
+                    <div class="table-head">Дата</div>
+                    <div *ngSwitchCase="menuNameView !=='folders' ? menuNameView:''" class="table-head">Расположение
+                    </div>
+                  </div>
+                </div>
+                <div class="table-body">
+                  <div class="table-row" *ngFor="let folder of currentFoldersListView"
+                    [attr.data-el]="objectType.folder+'-'+folder.folderId" (contextmenu)="onrightClick($event)">
+                    <div class="table-cell table-name"  [attr.data-el]="objectType.folder+'-'+folder.folderId" (click)="folderOrFileClick($event)">
+                      <div class="icon-folder sprite"></div>
+                      <div class="sprite"
+                        [ngClass]="{'icon-star-small':folder.star==true,'icon-space':folder.star==false}"></div>
+                      <div class="icon-name" [innerHTML]="folder.name"></div>
+                    </div>
+                    <div class="table-cell table-folder-size" [attr.data-el]="objectType.folder+'-'+folder.folderId"  (click)="folderSizeClick($event)">
+                      <div *ngIf="folder.folderSize === ''; else sizeFolder " class="icon-eye sprite"></div>
+                      <ng-template #sizeFolder>{{sizeByteToString(+folder.folderSize)}}</ng-template>
+                    </div>
+                    <div class="table-cell"> {{folder.folderDate}}
+
+                    </div>
+                    <div *ngSwitchCase="menuNameView !=='folders' ? menuNameView:''" class="table-cell">
+                      {{folder.folderPath}}</div>
+                  </div>
+                  <!-- файлы -->
+                  <div class="table-row" *ngFor="let file of currentFilesListView"
+                    [attr.data-el]="objectType.file+'-'+file.id" (contextmenu)="onrightClick($event)">
+                    <div class="table-cell  table-name" [attr.data-el]="objectType.file+'-'+file.id" (click)="folderOrFileClick($event)">
+                      <div class="icon-document sprite"></div>
+                      <div class="sprite" [ngClass]="{'icon-star-small':file.star==true,'icon-space':file.star==false}">
+                      </div>
+                      <div class="icon-name" [innerHTML]="file.name"></div>
+                    </div>
+                    <div class="table-cell">{{sizeByteToString(+file.size)}}</div>
+                    <div class="table-cell">{{file.date}}</div>
+                    <div *ngSwitchCase="menuNameView !=='folders' ? menuNameView:''" class="table-cell">
+                      {{file.filePath}}</div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="table-body">
-              <div class="table-row contener-elementFS" *ngFor="let folder of currentFoldersListView"
-                [attr.data-isfolder]="true" [attr.data-folderPath]="folder.folderPath"
-                [attr.data-folderName]="folder.folderName" (contextmenu)="onrightClick($event)"
-                (click)="newFoldersListByClick($event)">
-                <div class="table-cell">
-                  <div class="icon-folder sprite"></div>
-                  <div class="icon-name">{{folder.folderName}}</div>
-                </div>
-                <div class="table-cell">{{folder.FolderSize}}</div>
-                <div class="table-cell">{{folder.folderDate}}</div>
-                <div class="table-cell">cell4_1</div>
-              </div>
-              <!-- файлы -->
-              <div class="table-row contener-elementFS" *ngFor="let file of currentListFiles"
-                [attr.data-ifile]="file.id" [attr.data-isfolder]="" (contextmenu)="onrightClick($event)">
-                <div class="table-cell">
-                  <div class="icon-document sprite"></div>
-                  <div class="icon-name">{{file.fileName}}</div>
-                </div>
-                <div class="table-cell">{{file.size}}</div>
-                <div class="table-cell">{{file.date}}</div>
-                <div class="table-cell">cell4_1</div>
-              </div>
-
-            </div>
-
+          </ng-container>
+          <div class="free-space" [attr.data-el]="objectType.global"
+            (contextmenu)="onrightClick($event)">
           </div>
+        </ng-container>
+
+        <ng-container *ngIf="statusDataView ==='isNoData'">
+          <div class="no-data" [ngSwitch]="menuNameView" 
+          (contextmenu)="onrightClick($event)" [attr.data-el]="objectType.global">
+            <div class="no-data-item " *ngSwitchCase="menuSidebar.folders" >
+              <div class="no-data-icon"><div class="icon-noFolder-big sprite sprite-big"></div></div>
+              <div class="no-data-name">Нет загруженых файлов и папок</div>
+              <div class="no-data-recomendation"></div>
+            </div>
+            <div class="no-data-item" *ngSwitchCase="menuSidebar.basket">
+              <div class="no-data-icon"><div class="icon-basket-big sprite sprite-big"></div></div>
+              <div class="no-data-name">Корзина пуста</div>
+              <div class="no-data-recomendation"></div>
+            </div>
+            <div class="no-data-item" *ngSwitchCase="menuSidebar.star">
+              <div class="no-data-icon"><div class="icon-star-big sprite sprite-big"></div></div>
+              <div class="no-data-name">Нет отмеченных файлов и папок</div>
+              <div class="no-data-recomendation">Отметьте звездочками важные папки и файлы, чтобы быстро их найти.
+              </div>
+            </div>
+            <div class="no-data-item" *ngSwitchCase="menuSidebar.search">
+              <div class="no-data-icon"><div class="icon-search-big sprite sprite-big"></div></div>
+              <div class="no-data-name">По данному запросу ничего не найдено</div>
+              <div class="no-data-recomendation">Измените параметры запроса.</div>
+            </div>
+          </div>
+        </ng-container>
+        <div class="isLoading" *ngIf="statusDataView ==='isLoading'"><div class="isLoading-text">Идет обработка запроса...</div> </div>
+      </div>
+    </div>
+
+
+    <div class="context-menu" *ngIf="contextMenuView.isShow"
+      [ngStyle]="{'position': 'absolute', 'left.px': contextMenuView.showX, 'top.px': contextMenuView.showY}"
+      (appClickOutside)="contextMenuView.isShow = $event">
+      <div class="context-box" *ngIf="!(menuNameView == menuSidebar.star &&  contextMenuView.typeObject ==  objectType.global)">
+        <ul>
+          <ng-container *ngIf="menuNameView != menuSidebar.basket">
+            <ng-container *ngIf="menuNameView == menuSidebar.folders && (contextMenuView.typeObject ==  objectType.global || 
+          contextMenuView.typeObject == objectType.folderSide)">
+              <li (click)="showDialog(operation.create, typeModalWin.context)">
+                <div class="icon-folder-add sprite"></div>
+                <div class="icon-name">Создать папку</div>
+              </li>
+            </ng-container>
+            <ng-container *ngIf="contextMenuView.typeObject ==  objectType.folder || 
+            contextMenuView.typeObject ==  objectType.file || 
+            contextMenuView.typeObject ==  objectType.folderSide">
+              <li (click)="showDialog(operation.update, typeModalWin.context)">
+                <div class="icon-rename sprite"></div>
+                <div class="icon-name">Переименовать</div>
+              </li>
+              <ng-container *ngIf="contextMenuView.typeObject != objectType.folderSide">
+              <li (click)="changeStar()">
+                <div class="icon-star sprite"></div>
+                <div class="icon-name">
+                  <span *ngIf="!contextMenuView.isStar">Добавить в Избранное</span>
+                  <span *ngIf="contextMenuView.isStar">Удалить из Избранного</span>
+                </div>
+              </li>
+            </ng-container>
+              <li (click)="showMoveMenu(operation.update)">
+                <div class="icon-move sprite"></div>
+                <div class="icon-name">Переместить</div>
+              </li>
+              <li (click)="changeMainList(operation.delete)">
+                <div class="icon-del sprite"></div>
+                <div class="icon-name">Удалить</div>
+              </li>
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf="menuNameView == menuSidebar.basket">
+            <ng-container
+              *ngIf="contextMenuView.typeObject == objectType.file || contextMenuView.typeObject == objectType.folder">
+              <li (click)="recoverClick()">
+                <div class="icon-back sprite"></div>
+                <div class="icon-name">Восстановить</div>
+              </li>
+              <li (click)="showDialog(operation.delete, typeModalWin.warning)">
+                <div class="icon-del-end sprite"></div>
+                <div class="icon-name">Удалить навсегда</div>
+              </li>
+              <div class="separator"></div>
+            </ng-container>
+            <li (click)="clearBasketClick()">
+              <div class="icon-clear-basket sprite"></div>
+              <div class="icon-name">Очистить корзину</div>
+            </li>
+          </ng-container>
+        </ul>
+
+        <ng-container *ngIf="menuNameView != menuSidebar.basket">
+          <ng-container
+            *ngIf="contextMenuView.typeObject == objectType.file || (menuNameView == menuSidebar.folders && contextMenuView.typeObject == objectType.global)">
+            <div class="separator"></div>
+          </ng-container>
+          <ul>
+            <ng-container *ngIf="menuNameView == menuSidebar.folders && contextMenuView.typeObject == objectType.global">
+              <li (click)="fileUpload.click()">
+                <div class="icon-download sprite"></div>
+                <div class="icon-name">Загрузить файл(ы)</div>
+              </li>
+            </ng-container>
+            <ng-container *ngIf="contextMenuView.typeObject == objectType.file">
+              <li (click)="downloadFile()">
+                <div class="icon-upload sprite"></div>
+                <div class="icon-name">Скачать файл</div>
+              </li>
+            </ng-container>
+          </ul>
+        </ng-container>
+      </div>
+    </div>
+    <input #fileUpload type="file" (change)="uploadFilesServer($event);fileUpload.value=''" multiple
+      [ngStyle]="{'display': 'none'}">
+    <!-- Контекстное меню end-->
+    <!-- Окно загрузки файла -->
+    <ng-container *ngIf="pogressIndikatorView.isVisual">
+      <div class="indicator-progress">
+        <div class="upload-header">
+          <h4>Загружается {{pogressIndikatorView.amountFilesToSting()}}</h4>
+          <a class="close-button" (click)="closeUploadClick()">&#10006;</a>
+        </div>
+        <div class="upload-body">
+          <div class="upload-indicator">
+            <span>0</span>
+            <progress value="{{pogressIndikatorView.value}}" max="{{pogressIndikatorView.max}}"></progress>
+            <span>{{pogressIndikatorView.value}}%</span>
+          </div>
+          <div *ngIf="!pogressIndikatorView.isDone && !pogressIndikatorView.isCancel" class="upload-cancel"
+            (click)="cancelUploadClick()"><button>Отменить</button></div>
+          <div *ngIf="pogressIndikatorView.isDone" class="upload-is-done">Загрузка успешна!</div>
+          <div *ngIf="pogressIndikatorView.isCancel" class="upload-is-cancel">Загрузка отменена!</div>
         </div>
       </div>
-    </div>
-
-
-    <div class="context-menu" *ngIf="contextMenuView"
-      [ngStyle]="{'position': 'absolute', 'left.px': contextmenuXView, 'top.px': contextmenuYView}" appMove
-      (show)="contextMenuView = $event">
-      <div class="context-box">
-        <ul>
-          <li (click)="showDialog(operation.create)">
-            <div class="icon-folder-add sprite"></div>
-            <div class="icon-name">Создать папку</div>
-          </li>
-          <li *ngIf="isFolderMenu" (click)="showDialog(operation.update)">
-            <div class="icon-rename sprite"></div>
-            <div class="icon-name">Переименовать папку</div>
-          </li>
-          <li *ngIf="isFolderMenu" (click)="showMoveMenu(operation.update)">
-            <div class="icon-move sprite"></div>
-            <div class="icon-name">Переместить папку</div>
-          </li>
-          <li *ngIf="isFolderMenu" (click)="changeMainList(operation.delete)">
-            <div class="icon-del sprite"></div>
-            <div class="icon-name">Удалить папку</div>
-          </li>
-        </ul>
-        <div class="separator"></div>
-        <ul>
-          <!-- <li (click)="file.click()"> Загрузить файл(ы) </li> -->
-          <li (click)="fileUpload.click()">
-            <div class="icon-download sprite"></div>
-            <div class="icon-name">Загрузить файл(ы)</div>
-          </li>
-          <li *ngIf="!isFolderMenu" (click)="fileDownload.click()">
-            <div class="icon-upload sprite"></div>
-            <div class="icon-name">Скачать файл</div>
-          </li>
-          <li *ngIf="!isFolderMenu" (click)="showDialog(operation.update)">
-            <div class="icon-rename sprite"></div>
-            <div class="icon-name">Переименовать файл</div>
-          </li>
-          <li *ngIf="!isFolderMenu" (click)="showMoveMenu(operation.update)">
-            <div class="icon-move sprite"></div>
-            <div class="icon-name">Переместить файл</div>
-          </li>
-          <li *ngIf="!isFolderMenu" (click)="changeMainList(operation.delete)">
-            <div class="icon-del sprite"></div>
-            <div class="icon-name">Удалить файл</div>
-          </li>
-
-        </ul>
-
-      </div>
-      <!-- appClickOutside (show)="contextMenuView = $event"> -->
-
-    </div>
-    <input #fileUpload type="file" (change)="uploadFilesServer($event)" multiple [ngStyle]="{'display': 'none'}">
-    <a #fileDownload [href]="downloadLinkView" [ngStyle]="{'display': 'none'}"></a>
-    <!-- Контекстное меню end-->
-
-
+    </ng-container>
   </div>
 
 
-
+    <!-- модальные окна -->
   <div>
-    <!-- <div  > -->
-    <!-- Меню перемещения папки/файла -->
-
-    <!-- Меню перемещения end -->
-    <!-- Контекстное меню ПАПКИ-->
-    <!-- <input #file   type="file"  (change)="uploadFilesServer($event)" multiple *appShowForm="showForm">  -->
-    <!-- <div class="context-menu" *appContextMenu="contextmenu"  [ngStyle]="{'left.px': contextmenuX, 'top.px': contextmenuY}" > -->
-
-
-    <!-- <ul>
-          <li (contextmenu)="onrightClick($event)">test {{contextmenuX}}</li>
-          <li (contextmenu)="onrightClick($event)">test {{contextmenuX}}</li>
-          <li (contextmenu)="onrightClick($event)">test {{contextmenuX}}</li>
-          <li (contextmenu)="onrightClick($event)">test {{contextmenuX}}</li>
-        </ul>
-   -->
-    <!-- <div (click)="downloadFileFromServer()"><a [href]="downlodLink" download="downlodName.txt" >Скачать файл</a> </div> -->
-    <!-- Папки
-    <p>{{currentPath}}</p>
-    <ul>
-      <li *ngFor="let folder of allFolders" data-path-value='/' (contextmenu)="onrightClick($event)">
-        <a>{{folder}}</a>
-      </li>
-    </ul> -->
-    <!-- блок списка папок и файлов -->
-
-    <!-- <br><br> -->
-
-
-    <!-- <div class="move-menu" appClickOutside > -->
-
-
-    <!-- <input type="file" accept="image/*" #file> -->
-    <!-- <button (click)="file.click()">Upload file</button>
-  <input #file type="file"  (change)="upload($event)" multiple>  -->
-    <!-- <button (click)="createFolder()">Создать папку</button>
-        <button (click)="getFoldersFromServer()">получить</button>
-  
-        <button (click)="getAllFiles()">my</button>
-        <ul>
-            
-        <li *ngFor="let fileDisk of allFiles">
-          <a href='/rest/files/{{fileDisk}}'>{{fileDisk}}</a>
-        </li>
-        </ul> -->
     <app-modal-dialog *ngIf="isModalDialogVisible" [dataModalDialog]="dataModalDialogMain"
       (dataModalDialogOut)="closeModalWindow($event)"></app-modal-dialog>
 
-    <!-- *ngIf="isMoveMenuVisible" -->
     <app-move-menu *ngIf="isMoveMenuVisible" [dataMoveMenu]="dataMoveMenuMain"
       (dataMoveMenuOut)="closeModalWindow($event)"></app-move-menu>
-    <!-- <app-move-menu *ngIf="isMoveMenuVisible" [header]="headerMoveMenu"  [movePathView]="currentPath"  [allFolders]="allFolders"
-  (dataWindow)="closeMoveMenu($event)"></app-move-menu> -->
   </div>
 </div>
-
-<app-view-tmp *ngIf="ok"></app-view-tmp>

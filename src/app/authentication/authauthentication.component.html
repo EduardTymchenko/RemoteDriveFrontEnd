@@ -1,0 +1,76 @@
+<div class="auth-body">
+  <div class="btn-auth">
+    <ng-container *ngIf="!isLoginView">
+      <div class="btn-auth-enter">
+        <button type="button" (click)=showLoginMenu()>Вход</button>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="isLoginView">
+      <div class="is-login">
+        <div class="user-name-block" (click)=showMenuUser()>
+          <div *ngIf="userRoleView" class="sprite"
+            [ngClass]="{'icon-admin':userRoleView==='admin', 'icon-user':userRoleView==='user'}">
+          </div>
+          <div class="user-name">{{userNameView}}</div>
+        </div>
+        <div class="menu-user" *ngIf="isShowMenuUser" (appClickOutside)="isShowMenuUser = $event">
+          <div class="btn-clear-my-disk">
+              <button type="button" (click)=clearMyDisk()>Очистить мой Диск</button>
+          </div>
+          <div *ngIf="userRoleView === 'admin'" class="default-base">
+            <button type="button" (click)=baseDefault()>Очистить базу</button>
+          </div>
+          <div class="btn-auth-exit">
+            <button type="button" (click)=logOut()>Выйти</button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <ng-container *ngIf="!isLoginView && isShowLoginMenu">
+    <div class="login" (appClickOutside)="isShowLoginMenu = $event">
+      <form [formGroup]="loginForm" (submit)="onSubmit()">
+        <div class="header-form" *ngIf="!isShowRegistrMenu">Вход в систему</div>
+        <div class="header-form" *ngIf="isShowRegistrMenu">Регистрация <br> нового пользователя</div>
+        <div class="form-name">
+          <label>Имя<input autoFocus type="text" required formControlName="name" placeholder="A-z,0-9,@,+ длина >= 3"></label>
+          <div class="info-btn icon-info sprite" (click)=showInfoName()></div>
+        </div>
+        <div class="error-contener" *ngIf="isShowInfoName">
+          <div class="error" (appClickOutside)="isShowInfoName = $event">
+            Имя может состоять из заглавных или прописных латинских букв, цифр, @.<br> Длина имени 3 или более символов
+          </div>
+        </div>
+        <div class="form-pass">
+          <label>Пароль<input type="password" required formControlName="pass" placeholder="A-z,0-9 длина >= 3"></label>
+          <div class="info-btn icon-info sprite" (click)=showInfoPass()></div>
+        </div>
+        <div class="error-contener" *ngIf="isShowInfoPass">
+          <div class="error" (appClickOutside)="isShowInfoPass = $event">
+            Пароль может состоять из заглавных или прописных латинских букв, цифр.<br> Длина пароля 3 или более символов
+          </div>
+        </div>
+        <div class="form-pass-repeat" *ngIf="isShowRegistrMenu">
+          <label>Пароль<input type="password" required formControlName="passRepeat" placeholder="повторите"></label>
+          <div class="info-btn icon-info sprite" (click)=showInfoPassRepeat()></div>
+        </div>
+        <div class="error-contener" *ngIf="isShowInfoPassRepeat">
+          <div class="error" (appClickOutside)="isShowInfoPassRepeat = $event">
+            Пароли должны совпадать.
+          </div>
+        </div>
+        <div class="buttom-blok">
+          <button type="reset" (click)=clearForm() >Очистить</button>
+          <button *ngIf="!isShowRegistrMenu" type="submit">Войти</button>
+          <button *ngIf="isShowRegistrMenu" class="btn-reg" type="submit">Регистрация</button>
+        </div>
+      </form>
+      <div class="form-error" [innerHTML]=formErrView></div>
+      <div class="btn-newUser">
+        <div class="change-form" *ngIf="!isShowRegistrMenu" (click)=showRegistrMenu()>Новый пользователь</div>
+        <div class="change-form" *ngIf="isShowRegistrMenu" (click)=showRegistrMenu()>Вход в систему</div>
+      </div>
+    </div>
+  </ng-container>
+</div>

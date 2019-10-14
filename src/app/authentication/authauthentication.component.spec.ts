@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ViewTmpComponent } from './view-tmp.component';
+import { AuthauthenticationComponent } from './authauthentication.component';
 
-describe('ViewTmpComponent', () => {
-  let component: ViewTmpComponent;
-  let fixture: ComponentFixture<ViewTmpComponent>;
+describe('AuthauthenticationComponent', () => {
+  let component: AuthauthenticationComponent;
+  let fixture: ComponentFixture<AuthauthenticationComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ViewTmpComponent ]
+      declarations: [ AuthauthenticationComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ViewTmpComponent);
+    fixture = TestBed.createComponent(AuthauthenticationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

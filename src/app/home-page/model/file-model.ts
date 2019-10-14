@@ -1,12 +1,9 @@
 export class FileModel {
      id: number;
-     fileName :string;
+     name :string;
+     filePath: string;
      size: string;
      date: string;
-    // constructor(id: number, fileName: string, size: string){
-    //     this.id = id;
-    //     this.fileName = fileName;
-    //     this.size = size;
-
-    // }
+     star: boolean;
+     basket: boolean;
 }

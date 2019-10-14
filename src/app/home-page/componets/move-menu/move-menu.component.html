@@ -1,22 +1,25 @@
 <div class="move-background">
   <div class="container">
     <div class="header-block">
-      <h3 class="header-title">{{headerView}}: <span>"{{nameView}}"</span></h3>
+      <h3 class="header-title">{{headerView}} </h3>
       <a class="close-button" (click)="close()">&#10006;</a>
     </div>
     <div class="content">
-      <div class="location"> 
-        <div class="location-current">Текущее расположение: <div class="path">{{currentPathView}}</div> </div>
-        <div class="location-new">Новое расположение: <div class="path">{{newPathView}}</div> </div>
+      <div class="name">Имя: <span> {{nameView}}</span></div>
+      <div class="location">
+        <div class="location-current">Текущее расположение: <div class="path">{{currentPathView}}</div>
+        </div>
+        <div class="location-new">Новое расположение: <div class="path">{{newPathView}}</div>
+        </div>
       </div>
-      <div class="choice">
+      <div class="choice" >
         <h5>Выбирите папку для перемещения:</h5>
-        <ul class="folder-list">
-          <li *ngFor="let folder of folderListView; let i = index" [attr.data-ifolder]="i"
-            (click)="newFoldersListByClick($event)">
-            <a>{{folder}}</a>
-          </li>
-        </ul>
+        <div class="folder-list" >
+          <app-directory-folders [directoryAllFoldersList]="allFoldersList" [currentPath]="newPathView"
+            [menuNameView]="'folders'" (changeCurrentPathOut)="changeMovePath($event)"
+            (contextmenu-)="onrightClick($event)">
+          </app-directory-folders>
+        </div>
       </div>
     </div>
 

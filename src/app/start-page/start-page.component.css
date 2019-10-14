@@ -1,0 +1,185 @@
+
+.body-st {
+  height: 100vh;
+  min-width: 1000px;
+}
+
+.main-st {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100%;
+}
+
+.header-st {
+  background: #83a4d4;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #b6fbff, #83a4d4);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #b6fbff, #83a4d4);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  height: 80px;
+  /* border: 1px solid green; */
+  flex: 0 0 auto;
+  width: 100%;
+  vertical-align: middle;
+  position: relative;
+  text-align: center;
+}
+
+.logo-st {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+
+.logo-st .logo-contener-st {
+  display: flex;
+  align-items: center;
+}
+
+.logo-st .logo-contener-st:hover{
+  cursor: pointer;
+}
+
+.logo-st img {
+  height: 50px;
+}
+
+.logo-st span {
+  padding-left: 4px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.header-body-st {
+  margin-top: 10px;
+  display: inline-block;
+  font-size: 24px;
+}
+
+.header-body-st h3 {
+  color: rgb(85, 0, 155);
+}
+
+.login-st {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.content {
+  background-color: white;
+  flex: 1 0 auto;
+  width: 80%;
+  overflow: auto;
+
+}
+
+.content h4,
+p {
+  font-size: 16px;
+}
+
+.content p {
+  text-align: justify;
+}
+
+h1 {
+  padding-top: 10px;
+  font-size: 24px;
+  text-align: center;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+.footer {
+  background: #16222A;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #3A6073, #16222A);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #3A6073, #16222A);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  height: 150px;
+  /* border: 1px solid darkorange; */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fblock * {
+  color: white;
+}
+
+.fblock .icon-contener{
+  display: flex;
+  justify-content: center;
+}
+
+.fblock h5 {
+  font-size: 14px;
+  text-align: center;
+  padding-bottom: 5px;
+}
+
+.fblock p {
+  font-size: 14px;
+}
+
+.name-dev span {
+  font-size: 14px;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.tab {
+  padding-left: 20px;
+}
+
+.footer .sprite {
+  width: 30px;
+  height: 30px;
+}
+
+.footer .source {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  
+}
+.footer .source-fe, .source-be{
+  cursor: pointer;
+}
+.footer .source .icon-name {
+  padding: 0;
+  padding-right: 5px;
+}
+
+.footer .source a:hover  {
+  color: greenyellow;
+}
+
+.footer .dev{
+  margin-top: 5px;
+}
+.dev .link-dev{
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
+}
+.link-dev-icon{
+  margin-right: 20px;
+  cursor: pointer;
+}
+.footer a{
+  display: block;
+}
+.link-dev-icon:hover .icon-linkin{
+  background-position: -180px -120px;
+}
+.link-dev-icon:hover .icon-fb{
+  background-position: -180px -160px;
+}

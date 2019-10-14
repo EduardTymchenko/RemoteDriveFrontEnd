@@ -1,12 +1,14 @@
-import { Component, Renderer2, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Renderer2, Input, Output, EventEmitter, AfterViewChecked } from '@angular/core';
 import { FolderModel } from '../../model/folder-model';
+import { ContextMenu } from '../../model/context-menu'
 
 export class FolderForView {
   public isOpen: boolean = false;
   constructor(
     public path: string,
     public name: string,
-    public padding: string
+    public padding: string,
+    public id: number
   ) { }
 
 }
@@ -17,54 +19,58 @@ export class FolderForView {
   templateUrl: './directory-folders.component.html',
   styleUrls: ['./directory-folders.component.css']
 })
-export class DirectoryFoldersComponent {
+export class DirectoryFoldersComponent implements AfterViewChecked{
   
   private currentPath: string;
-  private isShowCurrentPath: boolean = false;
+  private isFoldersSideMenu: boolean = false;
 
   //
   private allFoldersList: Array<FolderForView>;
   private listFoldersView: Array<FolderForView> = [];
   private rootIsOpenView: boolean;
 
+  private typeObject: string = 'folderSide';
+
   @Input('directoryAllFoldersList') set changefolderListView(inAllFolders: Array<FolderModel>) {
-    inAllFolders.shift();
-  
     this.allFoldersList = this.getAllFolderListView(inAllFolders);
-    console.log(this.allFoldersList);
     this.listFoldersView = this.updateFolderListView(this.allFoldersList, this.listFoldersView);
   }
 
   @Input('currentPath') set showCurrentPathView(inCurrentPaht: string) {
     this.currentPath = inCurrentPaht;
-    console.log(inCurrentPaht)
     this.openTreeCurrentPath(inCurrentPaht, this.listFoldersView);
   }
 
-  @Input('menuNumberView') set activeShowCurrentPath(menuNumber: number) {
-    if(menuNumber === 0) this.isShowCurrentPath = true;
-    else this.isShowCurrentPath = false;
+  @Input('menuNameView') set activeShowCurrentPath(menuName: string) {
+    if(menuName === 'folders') this.isFoldersSideMenu = true;
+    else {this.isFoldersSideMenu = false;
+      this.offShowCurentPathView();
+    }
+    console.log('show ' +this.isFoldersSideMenu)
   }
 
   @Output() changeCurrentPathOut: EventEmitter<string> = new EventEmitter();
+  @Output() contextMenuDF: EventEmitter<ContextMenu> = new EventEmitter();
 
   constructor(private renderer: Renderer2) {}
 
   ngAfterViewChecked() {
-    if(this.isShowCurrentPath)  this.updateCurrentPathView(this.currentPath);
+    console.log(this.isFoldersSideMenu)
+    if(this.isFoldersSideMenu)  this.updateCurrentPathView(this.currentPath);
+    // else this.offShowCurentPathView();
   }
 
-  public getAllFolderListView(inFolderList: Array<FolderModel>): Array<FolderForView> {
+  private getAllFolderListView(inFolderList: Array<FolderModel>): Array<FolderForView> {
     let outList: Array<FolderForView> = [];
     let padding: string = 'px'
     inFolderList.forEach(el => {
       padding = ((el.folderPath.split('/').length - 1) * 15) + 'px';
-      outList.push(new FolderForView(el.folderPath, el.folderName, padding))
+      outList.push(new FolderForView(el.folderPath, el.name, padding, el.folderId))
     });
     return outList;
   }
 
-  public sortListFolder(inFolderList: Array<FolderForView>): Array<FolderForView> {
+  private sortListFolder(inFolderList: Array<FolderForView>): Array<FolderForView> {
     let childFolder: FolderForView;
     let searchPath: string;
     for (let i = 0; i < inFolderList.length; i++) {
@@ -127,6 +133,12 @@ export class DirectoryFoldersComponent {
       }
     }
   }
+  private offShowCurentPathView(){
+    let node = document.querySelector('.directory-folder .show-currentPath');
+    console.log(node)
+    if(node === null) return;
+    this.renderer.removeClass(node,'show-currentPath');
+  }
 
   public openFolder(event) {
     let attrElement: Element = this.getAttributesElementByClick(event);
@@ -134,6 +146,7 @@ export class DirectoryFoldersComponent {
     const pathFolder = attrElement.getAttribute('data-folderPath');
     const clickFolderPath: string = pathFolder + nameFolder + '/';
     this.changeCurrentPathOut.emit(clickFolderPath);
+    console.log(clickFolderPath)
   }
 
   public addFolderForView(path: string, listFolderView: Array<FolderForView>, allListFolder: Array<FolderForView>) {
@@ -192,6 +205,20 @@ export class DirectoryFoldersComponent {
       }
     }
     return null;
+  }
+
+  private contextMenuDFClick(event){
+    if(!this.isFoldersSideMenu) return;
+    const stringAttr: string = event.currentTarget.getAttribute('data-el1');
+    const listAttr: Array<string> = stringAttr.split('-');
+    let contextMenuDFOut: ContextMenu = new ContextMenu();
+    contextMenuDFOut.showX = event.clientX;
+    contextMenuDFOut.showY = event.clientY;
+    contextMenuDFOut.id = +listAttr[1];
+    contextMenuDFOut.setTypeObjectOfString(this.typeObject);
+    contextMenuDFOut.isShow = true;
+    this.contextMenuDF.emit(contextMenuDFOut);
+    return false; //добавить в body здксь убрать
   }
 }
 

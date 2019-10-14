@@ -1,14 +1,22 @@
+import { Operations } from './enums/operations.enum';
+import { TypeDialogWindow } from './enums/type-dialog-window.enum';
+import { ContextMenuType } from '../model/enums/context-menu-type.enum';
 
 export class ModalWindowModel {
-    header: string;
-    description: string;
-    defaultName: string;
-    // comand: number;
+    typeDialogWin: TypeDialogWindow;//тип сообщения контекст меню, ошибка 
+    bodyMessage: string;
+    comand: Operations;
+    typeMenu: ContextMenuType;
 
-    constructor(header: string, description: string, defaultName: string){
-        this.header = header;
-        this.description = description;
-        this.defaultName = defaultName;
+    numberErr: number;
+    serverMess: string;
+
+    constructor(typeDialogWin: TypeDialogWindow, bodyMessage: string, comand?: Operations, typeMenu?: ContextMenuType) {
+        this.typeDialogWin = typeDialogWin;
+        this.bodyMessage = bodyMessage;
+
+        this.comand = comand;
+        this.typeMenu = typeMenu;
     }
 
 }

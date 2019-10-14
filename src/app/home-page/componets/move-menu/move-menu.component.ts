@@ -16,22 +16,17 @@ export class MoveMenuComponent implements OnInit {
   private nameView: string;
   private currentPathView: string;
   private newPathView: string;
-  private folderListView: Array<string>;
+
 
   // For metods
-  private outDialogWindow: OutDialogWindowChanges = new OutDialogWindowChanges();
   private allFoldersList: Array<FolderModel>;
-  private changePath: string;
+  private outDialogWindow: OutDialogWindowChanges = new OutDialogWindowChanges();
 
   ngOnInit() {
     this.allFoldersList = this.dataMoveMenu.allFolders;
-    this.changePath = this.dataMoveMenu.currentPath;
-
-    this.headerView = this.dataMoveMenu.header;
-    this.nameView = this.dataMoveMenu.menuName;
+    this.setHeaderView();
     this.currentPathView = this.dataMoveMenu.currentPath;
     this.newPathView = this.currentPathView;
-    this.folderListView = this.getFoldersListForViewer(this.changePath, this.allFoldersList);
   }
 
   private confirm() {
@@ -43,43 +38,18 @@ export class MoveMenuComponent implements OnInit {
   private close() {
     this.dataMoveMenuOut.emit(this.outDialogWindow.isConfirmed = false);
   }
-
-  public getFoldersListForViewer(pathFolder: string, allFolders: Array<FolderModel>): Array<string> {
-    let folderList: Array<string> = [];
-    if (pathFolder != "/") {
-      folderList.push('.');
-      folderList.push('..');
+  
+  private setHeaderView() {
+    if (this.dataMoveMenu.getTypeMenuStringName() === 'folder') {
+      this.headerView = 'Переместить папку';
     }
-    allFolders.forEach(element => {
-      if(element.folderPath === pathFolder) folderList.push(element.folderName);
-    });
-    return folderList;
+    if (this.dataMoveMenu.getTypeMenuStringName() === 'file') {
+      this.headerView = 'Переместить файл';
+    }
+    this.nameView = this.dataMoveMenu.name;
+
   }
-
-  newFoldersListByClick(event) {
-    let changePath: string = this.changePath;
-    let currentFoldersList: Array<string> = this.folderListView;
-    const indexFolder: number = +event.currentTarget.getAttribute('data-ifolder');
-    let newPath: string = '';
-    if (changePath === '/') {
-      newPath = changePath + currentFoldersList[indexFolder] + '/';
-    }
-    else {
-      switch (indexFolder) {
-        case 0:
-          newPath = '/';
-          break;
-        case 1:
-          let lengthChangePath: number = changePath.slice(0,-1).lastIndexOf("/");
-          newPath = changePath.substring(0, lengthChangePath + 1);
-          break;
-        default:
-          newPath = changePath + currentFoldersList[indexFolder] + '/';
-          break;
-      }
-    }
-    this.changePath = newPath;
-    this.folderListView = this.getFoldersListForViewer(newPath, this.allFoldersList);
-    this.newPathView = newPath;
+  public changeMovePath(clickPath: string) {
+    this.newPathView = clickPath;
   }
 }

@@ -1,15 +1,10 @@
-/* * {
-  border: 1px solid;
-} */
-
-.style-block-folder-sidebar{
-  
+.style-block-folder-sidebar {
   display: inline-flex;
   border-radius: 0 20px 20px 0;
   height: 30px;
   align-items: center;
-  /* flex-wrap: nowrap; */
 }
+
 .style-block-folder-sidebar:hover {
   cursor: pointer;
 }
@@ -22,27 +17,22 @@
   font-size: 10px;
 }
 
-.name-folder-block{
+.name-folder-block {
   white-space: nowrap;
   margin-left: 3px;
- width: 100%;
+  width: 100%;
 }
 
 .open-list:hover,
-.name-folder-block:hover .icon-name
-{
-  color: rgb(25,124,222);
+.name-folder-block:hover .icon-name {
+  color: rgb(25, 124, 222);
 }
+
 .is-open {
   transform: rotate(90deg);
   -webkit-transform: rotate(90deg);
   -ms-transform: rotate(90deg);
   color: blueviolet;
-}
-
-.show-currentPath{
-    /* color: rgb(25,124,222); */
-    background-color: rgb(225, 227, 230);
 }
 
 .child-folder {

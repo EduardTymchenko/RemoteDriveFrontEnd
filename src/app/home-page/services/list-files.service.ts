@@ -8,27 +8,33 @@ export class ListFilesService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public getFilesList(host_url: string, url_get: string ,currentPath: string) {
+  public getFilesList(url_get: string , typeSideMenu: string ,currentPath: string) {
     let paramsFilesList = new HttpParams();
-    paramsFilesList = paramsFilesList.append("folderPath", currentPath);
-    return this.httpClient.get(host_url + url_get, { params: paramsFilesList});
+    paramsFilesList = paramsFilesList.append("typeSideMenu", typeSideMenu);
+    paramsFilesList = paramsFilesList.append("path", currentPath);
+    return this.httpClient.get(url_get, { params: paramsFilesList});
   }
 
-  public uploadFiles(host_url: string, uploadFiles_url: string, files:FileList, folderPath: string){
+  public uploadFiles(uploadFiles_url: string, files:FileList, folderPath: string){
+    
     let formData: FormData = new FormData();
     formData.append("folderPath", folderPath);
     for (let i = 0; i < files.length; i++) {
       formData.append('myfiles',files[i]);
     }
     console.log(formData.getAll('myfiles'));
-    return this.httpClient.post(host_url + uploadFiles_url, formData)
+    return this.httpClient.post(uploadFiles_url, formData,{reportProgress:true,observe:"events"});
   }
 
-  public changeFiles(urlHost: string, urlAction: string, idFile: string, newName?: string, newPath?: string) {
+  public downloadFile(downloadFile_url: string, idFile: number){
+    return this.httpClient.get(downloadFile_url + '/' + idFile,{observe: "response" ,responseType:"blob" });
+  }
+
+  public changeFiles(urlAction: string, idFile: string, newName?: string, newPath?: string) {
     let paramsFile = new HttpParams();
     paramsFile = paramsFile.append("idFile", idFile);
     paramsFile = paramsFile.append("newName", newName);
     paramsFile = paramsFile.append("newPath", newPath);
-    return this.httpClient.get(urlHost + urlAction, { params: paramsFile});//добавить обработку успех
+    return this.httpClient.get(urlAction, { params: paramsFile});//добавить обработку успех
   }
 }

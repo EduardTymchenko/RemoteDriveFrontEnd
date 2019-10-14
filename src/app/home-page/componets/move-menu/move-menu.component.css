@@ -36,10 +36,18 @@
 .close-button {
 	font-weight: 600;
 }
+.close-button:hover {
+	cursor: pointer;
+}
 
 .content {
 	padding: 10px;
 }
+.content .name{
+font-weight: 600;
+padding: 5px 0;	
+}
+
 .location .path{
 	font-weight: 800;
 	overflow:auto;
@@ -75,7 +83,10 @@ height: 100px;
 	box-shadow: 6px 5px 16px -9px #000000;
 }
 
+
+
 .simple-button:hover{
 	box-shadow: 7px 5px 19px -5px #000000;
+	cursor: pointer;
 }
 

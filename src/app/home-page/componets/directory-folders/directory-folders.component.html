@@ -1,28 +1,33 @@
-<div class="contener-elementFS" [attr.data-isfolder]="true" data-folderPath="" data-folderName="">
-    
-    <div class="style-block-folder-sidebar">
-        <div class="open-list" [ngClass]="{'is-open': rootIsOpenView}" (click)="viewFolderList($event)">&#9658;</div>
-        <div class="name-folder-block" (click)="openFolder($event)">
-            <div class="icon-mydisk sprite"></div>
-            <div class="icon-name">Мой диск</div>
-        </div>
-    </div>
+<div class="directory-folder">
+    <div class="contener-elementFS"  [attr.data-isfolder]="true" data-folderPath="" data-folderName="" >
 
-</div>
-
-<div>
-    <div class="contener-elementFS" *ngFor="let folder of listFoldersView" [attr.data-isfolder]="true"
-        [attr.data-folderPath]="folder.path" [attr.data-folderName]="folder.name">
-
-        <div class="style-block-folder-sidebar" [style.padding-left]="folder.padding">
-
-            <div class="open-list" [ngClass]="{'is-open': folder.isOpen}" (click)="viewFolderList($event)">&#9658;</div>
-
+        <div class="style-block-folder-sidebar">
+            <div class="open-list" [ngClass]="{'is-open': rootIsOpenView}" (click)="viewFolderList($event)">&#9658;
+            </div>
             <div class="name-folder-block" (click)="openFolder($event)">
-                <div class="icon-folder sprite"></div>
-                <div class="icon-name">{{folder.name}}</div>
+                <div class="icon-mydisk sprite"></div>
+                <div class="icon-name">Мой диск</div>
             </div>
         </div>
 
+    </div>
+
+    <div>
+        <div class="contener-elementFS" *ngFor="let folder of listFoldersView" [attr.data-isfolder]="true"
+            [attr.data-folderPath]="folder.path" [attr.data-folderName]="folder.name"
+            [attr.data-el1]="typeObject +'-'+folder.id" (contextmenu)=contextMenuDFClick($event)>
+
+            <div class="style-block-folder-sidebar" [style.padding-left]="folder.padding">
+
+                <div class="open-list" [ngClass]="{'is-open': folder.isOpen}" (click)="viewFolderList($event)">&#9658;
+                </div>
+
+                <div class="name-folder-block" (click)="openFolder($event)">
+                    <div class="icon-folder sprite"></div>
+                    <div class="icon-name">{{folder.name}}</div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>

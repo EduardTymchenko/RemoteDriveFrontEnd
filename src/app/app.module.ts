@@ -1,37 +1,47 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule }   from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './home-page/home-page.component';
-import { ContextMenuDirective } from './home-page/directives/context-menu.directive';
-import { MoveDirective } from './home-page/directives/move.directive';
-import { ClickOutsideDirective } from './home-page/directives/click-outside.directive';
+import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { ModalDialogComponent } from './home-page/componets/modal-dialog/modal-dialog.component';
 import { MoveMenuComponent } from './home-page/componets/move-menu/move-menu.component';
 import { DirectoryFoldersComponent } from './home-page/componets/directory-folders/directory-folders.component';
-import { ViewTmpComponent } from './home-page/componets/view-tmp/view-tmp.component';
+import { StartPageComponent } from './start-page/start-page.component';
+import { AuthauthenticationComponent } from './authentication/authauthentication.component';
+import { BasicAuthInterceptorService } from './authentication/services/basic-auth-interceptor.service';
+import { AutoFocusDirective } from './directives/auto-focus.directive';
+import { LocationStrategy, PathLocationStrategy,HashLocationStrategy, APP_BASE_HREF } from '@angular/common';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
-    ContextMenuDirective,
-    MoveDirective,
     ClickOutsideDirective,
     ModalDialogComponent,
     MoveMenuComponent,
     DirectoryFoldersComponent,
-    ViewTmpComponent
+    StartPageComponent,
+    AuthauthenticationComponent,
+    AutoFocusDirective
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    {  
+      provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptorService, multi:true
+    },
+    {
+      provide: LocationStrategy, useClass: `HashLocationStrategy`
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

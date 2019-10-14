@@ -54,7 +54,17 @@ img{
   height: 20px;
   display: inline-block;
   vertical-align: middle;
-  pointer-events: none;
+  /* pointer-events: none; */
+}
+
+.sprite-big {
+  /* background-image: url(./assets/images/sprite.png);
+  background-repeat: no-repeat; */
+  width: 100px;
+  height: 100px;
+  /* display: inline-block;
+  vertical-align: middle; */
+  /* pointer-events: none; */
 }
 
 .icon-folder {
@@ -91,10 +101,69 @@ img{
 .icon-star {
   background-position: 0px -220px;
 }
+.icon-star-small {
+  background-position: 0px -240px;
+}
+.icon-space {
+  background-position: 0px -260px;
+}
+.icon-search {
+  background-position: -40px -280px;
+}
+.icon-eye {
+  background-position: 0px -280px;
+}
 
 .icon-mydisk {
   background-position: 0px -20px;
 }
+.icon-error {
+  background-position: -40px 0px;
+}
+.icon-warning {
+  background-position: -60px 0px;
+}
+.icon-info {
+  background-position: -80px 0px;
+}
+.icon-linkin {
+  background-position: -140px -120px;
+}
+.icon-fb {
+  background-position: -140px -160px;
+}
+.icon-git {
+  background-position: -140px -80px;
+}
+.icon-back{
+  background-position: -40px -80px;
+}
+.icon-del-end{
+  background-position: -40px -100px;
+}
+.icon-clear-basket{
+  background-position: -40px -120px;
+}
+
+.icon-user {
+  background-position: -135px 0px;
+}
+.icon-admin {
+  background-position: -135px -40px;
+}
+.icon-basket-big {
+  background-position: -300px 0px;
+}
+.icon-star-big {
+  background-position: -400px 0px;
+}
+.icon-search-big {
+  background-position: -400px -100px;
+}
+.icon-noFolder-big {
+  background-position: -400px -200px;
+}
+
  
 .icon-name{
   padding-left: 10px;
@@ -116,4 +185,9 @@ ul {
 
 .sidebar {
   font-weight: bold;
+}
+
+/* Class for all component */
+.show-currentPath{
+  background-color: rgb(225, 227, 230);
 }

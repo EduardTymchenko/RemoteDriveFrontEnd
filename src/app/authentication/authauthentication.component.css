@@ -1,0 +1,204 @@
+.auth-body{
+    display: inline-block;
+}
+
+.btn-auth-enter, 
+.btn-auth-exit, 
+.default-base,
+.btn-clear-my-disk{
+    text-align: right;
+}
+
+.default-base button {
+    width: auto;
+    color: red;
+}
+.btn-clear-my-disk button{
+    width: auto;
+}
+.btn-auth-enter button, .btn-auth-exit button{
+    font-weight: 600;
+}
+.default-base, 
+.btn-auth-exit, 
+.btn-clear-my-disk{
+    margin: 10px 0;
+}
+.is-login{
+    display: block;
+}
+
+.is-login .user-name-block{
+    text-align: right;
+    cursor: pointer;
+}
+.is-login .user-name-block:hover .icon-user{
+    background-position: -175px 0px;
+}
+.is-login .user-name-block:hover  .icon-admin{
+    background-position: -176px -40px;
+}
+.is-login .user-name{
+    font-weight: 800;
+    font-size: 24px;
+    color: blue;
+    display: inline-block;
+    
+}
+
+.is-login .menu-user{
+    margin-top: 10px;
+    background-color: white;
+    border: 2px solid grey;
+    border-radius: 10px;
+}
+
+
+
+.login{
+    background-color: rgb(243, 243, 243);
+    margin-top: 10px;
+    border: 2px solid gray;
+    border-radius: 10px;
+    text-align: right;
+    
+}
+
+.login .header-form{
+    text-align: center;
+    font-size: 16px;
+    font-weight: 800;
+    padding: 8px;
+}
+
+label{
+    display: block;
+    padding: 10px 5px;
+    font-size: 16px;
+}
+label input{
+    float: right;
+    margin-left: 10px;
+    outline: none;
+    border-radius: 10px;
+    padding: 2px 5px;
+}
+input:focus{
+    box-shadow: 0 0 3pt 2pt rgb(186, 186, 247);
+}
+
+input.ng-touched.ng-invalid{
+    box-shadow: 0 0 3pt 2pt rgb(255, 89, 89);
+   }
+
+.buttom-blok{
+    margin-top: 5px;
+}
+
+button{
+    width: 80px;
+    font-size: 15px;
+	margin: 0 5px;
+	padding: 6px;
+	border-radius: 5px;
+	background-color: rgb(242, 244, 247);
+	box-shadow: 6px 5px 16px -9px #000000;
+}
+.buttom-blok .btn-reg{
+    width: auto;
+}
+.buttom-blok button[type='submit']{
+    float: right;
+}
+.buttom-blok button[type='reset']{
+    margin-right: 40px ;
+}
+
+.form-error{
+    max-width: 250px;
+    overflow: auto;
+    height: 3em;
+    text-align: center;
+    color: red;
+    font-weight: 600;
+    margin: 15px auto;
+}
+.btn-newUser{
+    text-align: left;
+}
+.btn-newUser .change-form{
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    font-style: italic;
+    text-align: left;
+
+}
+.btn-newUser .change-form:hover{
+    color: blue;
+    cursor: pointer;
+}
+
+button:hover{
+	box-shadow: 7px 5px 19px -5px #000000;
+	cursor: pointer;
+}
+.info-btn, label{
+display: inline-block;
+}
+.info-btn{
+    margin-right: 5px;
+}
+.info-btn:hover{
+    background-position: -100px 0px;
+    cursor: pointer;
+}
+
+
+.error-contener{
+position: absolute; 
+ z-index: 10;
+ margin-top: -5px;
+ right: 10px;
+}
+
+.error {
+    background: rgb(219, 219, 248);
+    border: 2px solid rgb(114, 71, 148);
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    position: relative;
+    padding: 5px;
+    width: 230px;
+    text-align: justify;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+ }
+  
+ .error:after,
+ .error:before {
+    content: '';
+    border: solid transparent;
+    position: absolute;
+    left: 50%;
+    margin-left: -12px;
+    top: -25px;
+    width: 0;
+ }
+ .error:before {
+    border-bottom-color: rgb(114, 71, 148);
+    border-width: 12px;
+ }
+ .error:after {
+    border-bottom-color: rgb(219, 219, 248);
+    border-width: 15px;
+    margin-left: -15px;
+ }
+ 
+.is-login .sprite{
+     width: 40px;
+     height: 40px;
+ }
