@@ -12,14 +12,14 @@ export class MoveMenuComponent implements OnInit {
   @Input() dataMoveMenu: MoveMenuModel;
   @Output() dataMoveMenuOut: EventEmitter<any> = new EventEmitter();
   // For Viewer
-  private headerView: string;
-  private nameView: string;
-  private currentPathView: string;
-  private newPathView: string;
-
+  public headerView: string;
+  public nameView: string;
+  public currentPathView: string;
+  public newPathView: string;
+  public allFoldersList: Array<FolderModel>;
 
   // For metods
-  private allFoldersList: Array<FolderModel>;
+  
   private outDialogWindow: OutDialogWindowChanges = new OutDialogWindowChanges();
 
   ngOnInit() {
@@ -29,13 +29,13 @@ export class MoveMenuComponent implements OnInit {
     this.newPathView = this.currentPathView;
   }
 
-  private confirm() {
+  public confirm() {
     this.outDialogWindow.isConfirmed = true;
     this.outDialogWindow.newPath = this.newPathView;
     this.dataMoveMenuOut.emit(this.outDialogWindow);
   }
 
-  private close() {
+  public close() {
     this.dataMoveMenuOut.emit(this.outDialogWindow.isConfirmed = false);
   }
   

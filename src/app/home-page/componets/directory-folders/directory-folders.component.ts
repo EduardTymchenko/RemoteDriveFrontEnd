@@ -24,10 +24,12 @@ export class DirectoryFoldersComponent implements AfterViewChecked{
   private currentPath: string;
   private isFoldersSideMenu: boolean = false;
 
-  //
+  //For View
+  public rootIsOpenView: boolean;
+  public listFoldersView: Array<FolderForView> = [];
+
   private allFoldersList: Array<FolderForView>;
-  private listFoldersView: Array<FolderForView> = [];
-  private rootIsOpenView: boolean;
+  
 
   private typeObject: string = 'folderSide';
 

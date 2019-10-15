@@ -10,8 +10,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class AuthauthenticationComponent implements OnInit {
 
-  private isLoginView: boolean;
-  private isShowLoginMenu: boolean = false;
+  public isLoginView: boolean;
+  public isShowLoginMenu: boolean = false;
   private isShowRegistrMenu: boolean = false;
   private isShowInfoName: boolean = false;
   private isShowInfoPass: boolean = false;

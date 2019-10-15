@@ -37,10 +37,11 @@ import { LocationStrategy, PathLocationStrategy,HashLocationStrategy, APP_BASE_H
   providers: [
     {  
       provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptorService, multi:true
-    },
-    {
-      provide: LocationStrategy, useClass: `HashLocationStrategy`
     }
+    // ,
+    // {
+    //   provide: LocationStrategy, useClass: HashLocationStrategy
+    // }
   ],
   bootstrap: [AppComponent]
 })

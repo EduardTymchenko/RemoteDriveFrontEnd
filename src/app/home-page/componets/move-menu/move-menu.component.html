@@ -16,8 +16,7 @@
         <h5>Выбирите папку для перемещения:</h5>
         <div class="folder-list" >
           <app-directory-folders [directoryAllFoldersList]="allFoldersList" [currentPath]="newPathView"
-            [menuNameView]="'folders'" (changeCurrentPathOut)="changeMovePath($event)"
-            (contextmenu-)="onrightClick($event)">
+            [menuNameView]="'folders'" (changeCurrentPathOut)="changeMovePath($event)">
           </app-directory-folders>
         </div>
       </div>

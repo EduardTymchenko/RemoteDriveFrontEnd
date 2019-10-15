@@ -50,12 +50,23 @@ export class HomePageComponent {
   private recover_url: string = "/rest/recover";
 
 
-  // For LOGIC
-  private objectType = ContextMenuType;
-  private menuSidebar = MenuSidebar;
+  //Global
+  public objectType = ContextMenuType;
+  public allFoldersListFull: Array<FolderModel>; //getAllFoldersServer for tree folders in component
+  public menuSidebar = MenuSidebar;
+  public menuNameView: MenuSidebar; // setMenuNameView choosed menu of sidebar
+  public sizeDiskView: SizeDisk = new SizeDisk();
+  public statusDataView: string; //--- show tabele folder and files
+  public contextMenuView: ContextMenu = new ContextMenu();// basic object for change
+  public isModalDialogVisible: boolean = false;
+  public isMoveMenuVisible: boolean = false;///
+
+  public pogressIndikatorView: ProgressIndicator = new ProgressIndicator();
+
+// For LOGIC
+  
 
   private currentPath: string; //setCurrentPath
-  private allFoldersListFull: Array<FolderModel>; //getAllFoldersServer for tree folders in component
 
   private isGetFilesList: boolean;
   private isGetFoldersList: boolean;
@@ -64,22 +75,17 @@ export class HomePageComponent {
   private outDialogWindowChanges: OutDialogWindowChanges = null;
 
   // For Viewer
-  private menuNameView: MenuSidebar; // setMenuNameView choosed menu of sidebar
 
-  private statusDataView: string; //--- show tabele folder and files
   private currentFoldersListView: Array<FolderModel>; //setDataView
   private currentFilesListView: Array<FileModel>; //setDataView
   private pathBreadcrumbsViewer: Array<BreadcrumbsFolder>;//setCurrentPath
-  private pogressIndikatorView: ProgressIndicator = new ProgressIndicator();
-  private sizeDiskView: SizeDisk = new SizeDisk();
-  private contextMenuView: ContextMenu = new ContextMenu();
   private searchStringView: string; //searchClick
 
   private operation = Operations;
   private typeModalWin = TypeDialogWindow;
   // private currentOperation: Operations;
 
-  private isModalDialogVisible: boolean = false;
+  
   private dataModalDialogMain: ModalWindowModel;
 
   // private menuNameFolder: string;
@@ -90,7 +96,6 @@ export class HomePageComponent {
   private uploadProcess: any;
 
 
-  private isMoveMenuVisible: boolean = false;///
   private dataMoveMenuMain: MoveMenuModel;
 
   private movePathView: string = '/';
@@ -221,7 +226,7 @@ export class HomePageComponent {
 
 
   // Click block
-  private buttonAddClick() {
+  public buttonAddClick() {
     console.log(this.menuSidebar["folderSide"])
     if (this.menuNameView !== this.menuSidebar.folders) {
       this.sidebarMenuClick(this.menuSidebar.folders);
@@ -234,7 +239,7 @@ export class HomePageComponent {
     this.contextMenuView = contextMenu;
   }
 
-  private sidebarMenuClick(nameMenu: MenuSidebar) {
+  public sidebarMenuClick(nameMenu: MenuSidebar) {
     this.setMenuNameView(nameMenu);
     this.setFoldersList(this.readFolders_url, this.menuSidebar[this.menuNameView], this.currentPath);
     this.setFilesList(this.getFiles_url, this.menuSidebar[this.menuNameView], this.currentPath);
@@ -245,7 +250,6 @@ export class HomePageComponent {
 
     let typeElement: ContextMenuType = +attrArray[0];
     console.log(typeElement)
-    // console.log(this.contextMenuType.)
     const idElement: number = +attrArray[1];
     let clickFolder: FolderModel;
     let clickFile: FileModel;
@@ -305,7 +309,7 @@ export class HomePageComponent {
         });
   }
 
-  private searchClick(search: string) {
+  public searchClick(search: string) {
     let foldersSearch: Array<FolderModel>;
     let filesSearch: Array<FileModel>;
     console.log(search)

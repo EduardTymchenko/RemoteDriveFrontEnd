@@ -10,7 +10,7 @@ import { AuthenticationService } from '../authentication/services/authentication
 export class StartPageComponent {
   constructor(private authService: AuthenticationService, private router: Router) { }
 
-  private goHomePage() {
+  public goHomePage() {
     if (this.authService.isUserLoggedIn()) this.router.navigate(['/home']);
     else {
       alert("Авторизируйтесь!");

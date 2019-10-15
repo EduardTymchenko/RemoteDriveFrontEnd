@@ -71,18 +71,20 @@ export class ModalDialogComponent {
 
 	private outDialogWindow: OutDialogWindowChanges;
 	// For view
-	private typeWinView: TypeDialogWindow;
-	private header: string;
-	private codeErr: number;
+	public header: string;
+	public typeWinView: TypeDialogWindow; // variable
+	public typeModalWin = TypeDialogWindow;// object
+	public codeErr: number;
+
 	private description: string;
 	private serverMess: string;
 	private inputName: string;
 	// For logic
 	private operation = Operations;
-	private typeModalWin = TypeDialogWindow;
+	
 
 
-	private confirm() {
+	public confirm() {
 		this.outDialogWindow = new OutDialogWindowChanges()
 		this.outDialogWindow.isConfirmed = true;
 		this.outDialogWindow.newName = this.inputName;
@@ -92,7 +94,7 @@ export class ModalDialogComponent {
 		this.dataModalDialogOut.emit(this.outDialogWindow);
 	}
 
-	private close() {
+	public close() {
 		this.outDialogWindow = new OutDialogWindowChanges()
 		this.dataModalDialogOut.emit(this.outDialogWindow.isConfirmed = false);
 	}
