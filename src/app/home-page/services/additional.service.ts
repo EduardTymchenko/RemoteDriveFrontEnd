@@ -31,7 +31,6 @@ export class AdditionalService {
 
   public changeData(urlAction: string, currentFolderId: string, newPath:string = '', newName:string = '') {
     let paramsFolders = new HttpParams();
-    
     paramsFolders = paramsFolders.append("id", currentFolderId);
     paramsFolders = paramsFolders.append("newPath", newPath);
     paramsFolders = paramsFolders.append("newName", newName);

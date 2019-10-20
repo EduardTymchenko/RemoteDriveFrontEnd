@@ -48,7 +48,6 @@ export class DirectoryFoldersComponent implements AfterViewChecked{
     else {this.isFoldersSideMenu = false;
       this.offShowCurentPathView();
     }
-    console.log('show ' +this.isFoldersSideMenu)
   }
 
   @Output() changeCurrentPathOut: EventEmitter<string> = new EventEmitter();
@@ -57,9 +56,7 @@ export class DirectoryFoldersComponent implements AfterViewChecked{
   constructor(private renderer: Renderer2) {}
 
   ngAfterViewChecked() {
-    console.log(this.isFoldersSideMenu)
     if(this.isFoldersSideMenu)  this.updateCurrentPathView(this.currentPath);
-    // else this.offShowCurentPathView();
   }
 
   private getAllFolderListView(inFolderList: Array<FolderModel>): Array<FolderForView> {
@@ -137,7 +134,6 @@ export class DirectoryFoldersComponent implements AfterViewChecked{
   }
   private offShowCurentPathView(){
     let node = document.querySelector('.directory-folder .show-currentPath');
-    console.log(node)
     if(node === null) return;
     this.renderer.removeClass(node,'show-currentPath');
   }
@@ -148,7 +144,6 @@ export class DirectoryFoldersComponent implements AfterViewChecked{
     const pathFolder = attrElement.getAttribute('data-folderPath');
     const clickFolderPath: string = pathFolder + nameFolder + '/';
     this.changeCurrentPathOut.emit(clickFolderPath);
-    console.log(clickFolderPath)
   }
 
   public addFolderForView(path: string, listFolderView: Array<FolderForView>, allListFolder: Array<FolderForView>) {
@@ -220,7 +215,7 @@ export class DirectoryFoldersComponent implements AfterViewChecked{
     contextMenuDFOut.setTypeObjectOfString(this.typeObject);
     contextMenuDFOut.isShow = true;
     this.contextMenuDF.emit(contextMenuDFOut);
-    return false; //добавить в body здксь убрать
+    return false;
   }
 }
 

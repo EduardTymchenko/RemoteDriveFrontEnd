@@ -9,7 +9,9 @@ export class ModalWindowModel {
     typeMenu: ContextMenuType;
 
     numberErr: number;
+    nameErr: string;
     serverMess: string;
+    todo: string;
 
     constructor(typeDialogWin: TypeDialogWindow, bodyMessage: string, comand?: Operations, typeMenu?: ContextMenuType) {
         this.typeDialogWin = typeDialogWin;

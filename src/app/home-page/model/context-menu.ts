@@ -6,7 +6,6 @@ export class ContextMenu {
     showX: number;
     showY: number;
     isShow: boolean ;
-    // private typeMenu: ContextMenuType; //folder, file , global
     typeObject: ContextMenuType; //folder, file ....
     id: number;
     isStar:boolean;//изменение удалить/добавить в меню

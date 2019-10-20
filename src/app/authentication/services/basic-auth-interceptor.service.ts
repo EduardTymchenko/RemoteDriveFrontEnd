@@ -12,7 +12,8 @@ export class BasicAuthInterceptorService implements HttpInterceptor {
   constructor(private authService: AuthenticationService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const URL_Server: string = 'http://localhost:8080';
+    const URL_Server: string = 'https://my-disk.herokuapp.com';
+    // const URL_Server: string = 'http://localhost:8080';
     if (sessionStorage.getItem('username') && sessionStorage.getItem('token')) {
       req = req.clone({
         url: URL_Server + req.url,
@@ -24,8 +25,6 @@ export class BasicAuthInterceptorService implements HttpInterceptor {
     } else req = req.clone({ url: URL_Server + req.url });
     return next.handle(req)
       .pipe(catchError((error: HttpErrorResponse) => {
-        console.log(error)
-        //todo
         let messageErr: string;
         switch (error.status) {
           case 404:
@@ -38,9 +37,7 @@ export class BasicAuthInterceptorService implements HttpInterceptor {
               this.authService.logOut('start');
             }
             break;
-          case 400:
-              messageErr = 'Ошибка в параметрах запроса\n' + error.url
-            break;
+          
           default:
             return throwError(error);
         }

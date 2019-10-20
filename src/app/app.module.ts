@@ -13,7 +13,6 @@ import { StartPageComponent } from './start-page/start-page.component';
 import { AuthauthenticationComponent } from './authentication/authauthentication.component';
 import { BasicAuthInterceptorService } from './authentication/services/basic-auth-interceptor.service';
 import { AutoFocusDirective } from './directives/auto-focus.directive';
-import { LocationStrategy, PathLocationStrategy,HashLocationStrategy, APP_BASE_HREF } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -38,10 +37,6 @@ import { LocationStrategy, PathLocationStrategy,HashLocationStrategy, APP_BASE_H
     {  
       provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptorService, multi:true
     }
-    // ,
-    // {
-    //   provide: LocationStrategy, useClass: HashLocationStrategy
-    // }
   ],
   bootstrap: [AppComponent]
 })

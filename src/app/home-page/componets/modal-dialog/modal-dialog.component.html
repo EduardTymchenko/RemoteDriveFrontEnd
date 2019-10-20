@@ -8,7 +8,7 @@
 		<div class="content" (keyup.enter)="confirm()">
 			<ng-container *ngIf="typeWinView === typeModalWin.error">
 				<div class="icon-error sprite"></div>
-				<div class="icon-name err-number"><span>{{codeErr}}</span></div>
+				<div class="icon-name err-number"><span>{{codeErr}}</span><span>{{nameErr}}</span></div>
 				<div class="err-description"><span>{{description}}</span></div>
 				<div class="err-serv-mess"><span>{{serverMess}}</span></div>
 			</ng-container>
@@ -25,7 +25,7 @@
 		</div>
 
 		<div class="action-block">
-			<ng-container *ngIf="typeWinView === typeModalWin.context || typeModalWin.warning">
+			<ng-container *ngIf="typeWinView === typeModalWin.context || typeWinView === typeModalWin.warning">
 				<button class="simple-button" (click)="confirm()">ОK</button>
 				<button class="simple-button" (click)="close()">Отмена</button>
 			</ng-container>

@@ -1,7 +1,12 @@
-
 .body-st {
-  height: 100vh;
   min-width: 1000px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .main-st {
@@ -18,7 +23,7 @@
   /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #b6fbff, #83a4d4);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  height: 80px;
+  height: 70px;
   /* border: 1px solid green; */
   flex: 0 0 auto;
   width: 100%;
@@ -38,13 +43,17 @@
   align-items: center;
 }
 
-.logo-st .logo-contener-st:hover{
+.logo-st .logo-contener-st:hover {
   cursor: pointer;
 }
 
-.logo-st img {
+.logo-st .img-logo {
   height: 50px;
+  width: 70px;
+  background: url(../../assets/images/logoMy.png) no-repeat;
+  background-size: contain;
 }
+
 
 .logo-st span {
   padding-left: 4px;
@@ -70,10 +79,14 @@
 
 .content {
   background-color: white;
-  flex: 1 0 auto;
-  width: 80%;
+  flex: 1;
+  display: flex;
   overflow: auto;
+  width: 80%;
+}
 
+.content .instrument {
+  display: block;
 }
 
 .content h4,
@@ -95,6 +108,17 @@ h3 {
   font-size: 18px;
 }
 
+h4 span {
+  font-size: inherit;
+  font-weight: 500;
+}
+
+.rest-api-link {
+  font-size: inherit;
+  font-style: italic;
+  color: rgb(87, 116, 172);
+}
+
 .footer {
   background: #16222A;
   /* fallback for old browsers */
@@ -102,8 +126,7 @@ h3 {
   /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #3A6073, #16222A);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  height: 150px;
-  /* border: 1px solid darkorange; */
+  height: 100px;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -114,7 +137,24 @@ h3 {
   color: white;
 }
 
-.fblock .icon-contener{
+.fblock {
+  width: 60%;
+}
+
+.fblock .source,
+.dev {
+  display: inline-block;
+}
+
+.source {
+  width: 200px;
+}
+
+.dev {
+  float: right;
+}
+
+.fblock .icon-contener {
   display: flex;
   justify-content: center;
 }
@@ -144,42 +184,55 @@ h3 {
   height: 30px;
 }
 
-.footer .source {
+.footer .source-links {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  
+
 }
-.footer .source-fe, .source-be{
+
+.footer .source-fe,
+.source-be {
   cursor: pointer;
+
 }
+
+.source-links a {
+  font-size: 14px;
+}
+
 .footer .source .icon-name {
   padding: 0;
   padding-right: 5px;
 }
 
-.footer .source a:hover  {
+.footer .source a:hover {
   color: greenyellow;
 }
 
-.footer .dev{
+.footer .dev {
   margin-top: 5px;
 }
-.dev .link-dev{
+
+.dev .link-dev {
   margin-top: 5px;
   display: flex;
   justify-content: center;
 }
-.link-dev-icon{
+
+.link-dev-icon {
   margin-right: 20px;
   cursor: pointer;
 }
-.footer a{
+
+.footer a {
   display: block;
 }
-.link-dev-icon:hover .icon-linkin{
+
+.link-dev-icon:hover .icon-linkin {
   background-position: -180px -120px;
 }
-.link-dev-icon:hover .icon-fb{
+
+.link-dev-icon:hover .icon-fb {
   background-position: -180px -160px;
 }

@@ -60,18 +60,14 @@ export class HomePageComponent {
   public contextMenuView: ContextMenu = new ContextMenu();// basic object for change
   public isModalDialogVisible: boolean = false;
   public isMoveMenuVisible: boolean = false;///
-
   public pogressIndikatorView: ProgressIndicator = new ProgressIndicator();
 
-// For LOGIC
-  
-
+  // For LOGIC
   private currentPath: string; //setCurrentPath
-
   private isGetFilesList: boolean;
   private isGetFoldersList: boolean;
   private countClickMenu: number = 0;
-  // для хранения педыдкщего ответа из окна переместить
+  // для хранения предыдущего ответа из окна переместить
   private outDialogWindowChanges: OutDialogWindowChanges = null;
 
   // For Viewer
@@ -83,21 +79,11 @@ export class HomePageComponent {
 
   private operation = Operations;
   private typeModalWin = TypeDialogWindow;
-  // private currentOperation: Operations;
-
-  
   private dataModalDialogMain: ModalWindowModel;
-
-  // private menuNameFolder: string;
-  // private menuPathFolder: string;
   private idFile: number;
   private downloadLinkView: string;
-
   private uploadProcess: any;
-
-
   private dataMoveMenuMain: MoveMenuModel;
-
   private movePathView: string = '/';
   private moveListFoldersView: Array<string>;
 
@@ -138,7 +124,6 @@ export class HomePageComponent {
       if (isLong && i > 2) index = fullBreadcrumbs.length - lengthBreadcrumbs + i;
       else index = i;
       fullPath = fullBreadcrumbs.slice(0, index + 1).join('/') + '/';
-      // console.log('fullPath = ' + fullPath)
       this.pathBreadcrumbsViewer.push(new BreadcrumbsFolder(fullBreadcrumbs[index], fullPath));
     }
     if (isLong) {
@@ -157,8 +142,6 @@ export class HomePageComponent {
     }
     if (menuName === this.menuSidebar.folders) this.countClickMenu++;
     else this.countClickMenu = 0;
-    console.log(this.countClickMenu)
-
     this.menuNameView = menuName;
     sessionStorage.setItem('menuNameView', this.menuNameView.toString());
   }
@@ -168,7 +151,6 @@ export class HomePageComponent {
   private setFilesList(urlAction: string, typeSideMenu: string, path: string) {
     this.isGetFilesList = false;
     let newFilesList: Array<FileModel>;
-    // this.currentListFilesView = [];
     this.listFilesService.getFilesList(urlAction, typeSideMenu, path).subscribe((data: FileModel[]) => {
       newFilesList = data;
       this.currentFilesListView = Array.from(newFilesList);
@@ -181,7 +163,6 @@ export class HomePageComponent {
   private setFoldersList(urlAction: string, typeSideMenu: string, path: string) {
     let newFoldesList: Array<FolderModel>;
     this.isGetFoldersList = false;
-    // this.currentFoldersListView = [];
     this.listFoldersService.getFoldersList(urlAction, typeSideMenu, path).subscribe((data: FolderModel[]) => {
       newFoldesList = data;
       this.currentFoldersListView = Array.from(newFoldesList);
@@ -196,8 +177,6 @@ export class HomePageComponent {
     if (!this.isGetFilesList || !this.isGetFoldersList) this.statusDataView = 'isLoading';
     else if (this.currentFilesListView.length === 0 && this.currentFoldersListView.length === 0) this.statusDataView = 'isNoData';
     else this.statusDataView = 'isData';
-    console.log(this.statusDataView)
-
   }
 
   private setSizeDiskView() {
@@ -227,7 +206,6 @@ export class HomePageComponent {
 
   // Click block
   public buttonAddClick() {
-    console.log(this.menuSidebar["folderSide"])
     if (this.menuNameView !== this.menuSidebar.folders) {
       this.sidebarMenuClick(this.menuSidebar.folders);
     }
@@ -249,12 +227,10 @@ export class HomePageComponent {
     const attrArray: string[] = event.currentTarget.getAttribute('data-el').split('-');
 
     let typeElement: ContextMenuType = +attrArray[0];
-    console.log(typeElement)
     const idElement: number = +attrArray[1];
     let clickFolder: FolderModel;
     let clickFile: FileModel;
     let newPath: string;
-    console.log(this.menuNameView)
     switch (this.menuNameView) {
       case this.menuSidebar.folders:
         if (typeElement === this.objectType.folder) {
@@ -312,7 +288,6 @@ export class HomePageComponent {
   public searchClick(search: string) {
     let foldersSearch: Array<FolderModel>;
     let filesSearch: Array<FileModel>;
-    console.log(search)
     if (search.length === 0) return;//сообщение строка пустая
     this.setMenuNameView(this.menuSidebar.search);
     this.additionalService.search(this.search_url, search)
@@ -381,7 +356,6 @@ export class HomePageComponent {
 
   // Context menu block
   private onrightClick(event: any) {
-    console.log(event.target)
     const stringAttr: string = event.currentTarget.getAttribute('data-el');
     if (stringAttr === null) return;
     const listAttr: Array<string> = stringAttr.split('-');
@@ -399,7 +373,7 @@ export class HomePageComponent {
     contextMenu.isShow = true;
     this.contextMenuView = contextMenu;
 
-    return false; //добавить в body здксь убрать
+    return false;
   }
 
 
@@ -435,7 +409,6 @@ export class HomePageComponent {
   }
 
   private showDialog(comand: Operations, typeModalWindow: TypeDialogWindow) {
-    console.log(this.contextMenuView)
     this.contextMenuView.isShow = false;
     this.contextMenuView.comand = comand;
     let defaultName: string = '';
@@ -453,12 +426,15 @@ export class HomePageComponent {
   public showErrorDialog(err: HttpErrorResponse) {
     this.contextMenuView.isShow = false;
     const numberErr: number = err.status;
+    let nameStatus: string;
     let message: string;
     let serverMess: string = '';
+    let todoErr: string = '';
 
     if (err.error !== null && numberErr !== 0 && err.error.message !== undefined) {
       message = err.error.message;
-      console.log(message)
+      nameStatus = err.error.nameStatus;
+      todoErr = err.error.todo;
     } else {
       message = 'Неизвестная ошибка ';
       serverMess = err.message;
@@ -467,6 +443,8 @@ export class HomePageComponent {
     this.dataModalDialogMain = new ModalWindowModel(this.typeModalWin.error, message);
     this.dataModalDialogMain.numberErr = numberErr;
     this.dataModalDialogMain.serverMess = serverMess;
+    this.dataModalDialogMain.nameErr = nameStatus;
+    this.dataModalDialogMain.todo = todoErr;
     this.isModalDialogVisible = true;
   }
 
@@ -486,11 +464,14 @@ export class HomePageComponent {
   }
 
   public closeModalWindow(outData: OutDialogWindowChanges) {
-    console.log(outData)
     this.isModalDialogVisible = false;
     this.isMoveMenuVisible = false;
     if (!outData.isConfirmed) {
       this.outDialogWindowChanges = null;
+      if(this.dataModalDialogMain.todo === 'reloadRoot'){
+        this.setCurrentPath('/');
+        window.location.reload();
+      }
       return;
     }
     if (outData.newName && this.outDialogWindowChanges !== null) {
@@ -499,7 +480,6 @@ export class HomePageComponent {
     }
     if (outData.errIsRename) {
       this.showDialog(this.operation.update, this.typeModalWin.context);
-      console.log(this.dataModalDialogMain)
       return;
     }
     if (outData.newPath !== '') this.outDialogWindowChanges = outData;
@@ -537,7 +517,6 @@ export class HomePageComponent {
           case HttpEventType.UploadProgress:
             this.pogressIndikatorView.max = 100;
             this.pogressIndikatorView.value = Math.round(event.loaded / event.total * 100) - 1;
-            console.log(this.pogressIndikatorView.value)
             break;
           case HttpEventType.Response:
             this.pogressIndikatorView.value = 100;
@@ -546,10 +525,11 @@ export class HomePageComponent {
             this.setSizeDiskView();
             setTimeout(() => {
               this.pogressIndikatorView.isVisual = false;
-            }, 5000);
+            }, 3000);
         }
       },
         (error: HttpErrorResponse) => {
+          this.cancelUploadClick();
           this.showErrorDialog(error);
         });
   }
@@ -561,7 +541,7 @@ export class HomePageComponent {
         var a = document.createElement("a");
         a.setAttribute('style', 'display: none');
         a.href = URL.createObjectURL(data.body);
-        a.download = data.headers.get('content-disposition').split('"')[1];
+        a.download = this.getFileById(this.contextMenuView.id, this.currentFilesListView).name;
         a.click();
         a.remove();
       },
@@ -573,7 +553,6 @@ export class HomePageComponent {
   private changeMainList(doIt: Operations, newNameIn: string, newPathIn: string) {
     this.contextMenuView.isShow = false;
     let do_url: string;
-    // if ((changeNameFolder === "." || changeNameFolder === "..") && doIt !== this.operation.create) return;// подумать где
     switch (doIt) {
       case this.operation.create:
         do_url = this.createFolder_url;
@@ -599,15 +578,18 @@ export class HomePageComponent {
     this.additionalService.changeData(do_url, currentId, newPathIn, newNameIn).subscribe(() => {
       this.checkCurentPathForChangeList(+currentId, doIt, newNameIn, newPathIn);
       if (doIt === this.operation.delete) this.setSizeDiskView();
+
       if (this.contextMenuView.getTypeMenu() === this.objectType.folder || doIt === this.operation.create) {
         this.setFoldersList(this.readFolders_url, this.menuSidebar[this.menuNameView], this.currentPath);
         this.setAllFoldersList();
-        console.log(this.currentPath)
+        if (this.contextMenuView.typeObject === this.objectType.folderSide) this.setFilesList(this.getFiles_url, this.menuSidebar[this.menuNameView], this.currentPath);
 
       }
       if (this.contextMenuView.getTypeMenu() === this.objectType.file) {
-        this.setFilesList(this.getFiles_url, this.menuSidebar[this.menuNameView], this.currentPath)
+        this.setFilesList(this.getFiles_url, this.menuSidebar[this.menuNameView], this.currentPath);
       }
+      // Пеименование при восстановлении
+      if (this.menuNameView === this.menuSidebar.basket && doIt === this.operation.update) this.recoverClick();
       // При удачной операции удаляем предыдущее значения
       if (doIt === this.operation.update) this.outDialogWindowChanges = null;
     },
@@ -669,7 +651,6 @@ export class HomePageComponent {
       if (listFiles[i].id === id) return listFiles[i];
     }
   }
-
 
 }
 

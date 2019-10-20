@@ -14,8 +14,6 @@ export class ModalDialogComponent {
 
 	@Input() set dataModalDialog(dataModalDialog: ModalWindowModel) {
 		this.typeWinView = dataModalDialog.typeDialogWin;
-
-		console.log(dataModalDialog);
 		if (this.typeWinView === this.typeModalWin.warning) {
 			if (dataModalDialog.comand === this.operation.delete) {
 				this.header = 'Удалить';
@@ -38,6 +36,7 @@ export class ModalDialogComponent {
 		if (this.typeWinView === this.typeModalWin.error) {
 			this.header = 'Ошибка';
 			this.codeErr = dataModalDialog.numberErr;
+			this.nameErr = dataModalDialog.nameErr;
 			this.description = dataModalDialog.bodyMessage;
 			this.serverMess = dataModalDialog.serverMess;
 
@@ -75,6 +74,7 @@ export class ModalDialogComponent {
 	public typeWinView: TypeDialogWindow; // variable
 	public typeModalWin = TypeDialogWindow;// object
 	public codeErr: number;
+	public nameErr: string;
 
 	private description: string;
 	private serverMess: string;
@@ -95,6 +95,7 @@ export class ModalDialogComponent {
 	}
 
 	public close() {
+		
 		this.outDialogWindow = new OutDialogWindowChanges()
 		this.dataModalDialogOut.emit(this.outDialogWindow.isConfirmed = false);
 	}

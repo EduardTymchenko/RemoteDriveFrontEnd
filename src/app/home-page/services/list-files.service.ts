@@ -22,7 +22,6 @@ export class ListFilesService {
     for (let i = 0; i < files.length; i++) {
       formData.append('myfiles',files[i]);
     }
-    console.log(formData.getAll('myfiles'));
     return this.httpClient.post(uploadFiles_url, formData,{reportProgress:true,observe:"events"});
   }
 
@@ -35,6 +34,6 @@ export class ListFilesService {
     paramsFile = paramsFile.append("idFile", idFile);
     paramsFile = paramsFile.append("newName", newName);
     paramsFile = paramsFile.append("newPath", newPath);
-    return this.httpClient.get(urlAction, { params: paramsFile});//добавить обработку успех
+    return this.httpClient.get(urlAction, { params: paramsFile});
   }
 }

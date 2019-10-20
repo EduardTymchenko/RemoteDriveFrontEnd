@@ -146,7 +146,6 @@ export class AuthauthenticationComponent implements OnInit {
     this.isShowInfoPassRepeat = !this.isShowInfoPassRepeat;
   }
   private setUserRole(): string {
-    console.log(sessionStorage.getItem('role'))
     if (sessionStorage.getItem('role') === 'USER') return 'user';
     if (sessionStorage.getItem('role') === 'ADMIN') return 'admin';
     return '';
